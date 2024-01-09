@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <HelloWorld :msg="message" />
+    <button @click="getData">getData</button>
   </div>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
-@Options({
+<script>
+//axios 설정
+import axios from "axios";
+import HelloWorld from "@/components/HelloWorld.vue";
+export default {
+  data() {
+    return {
+      message: "",
+    };
+  },
+  name: "HomeView",
+  //사용자 정의함수
+  methods: {
+    getData() {
+      //console.log("GetData 함수 호출!");
+      axios
+        .get("http://192.168.0.30/spring0102/hello")
+        .then((resp) => {
+          console.log(resp);
+          this.message = resp.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, //getData end
+  }, //method end
   components: {
     HelloWorld,
   },
-})
-export default class HomeView extends Vue {}
+};
 </script>
